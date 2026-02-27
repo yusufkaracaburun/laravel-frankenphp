@@ -15,12 +15,9 @@ return [
      * The list of domains hosting your central app.
      *
      * Only relevant if you're using the domain or subdomain identification middleware.
+     * Set CENTRAL_DOMAINS in .env (comma-separated) to override.
      */
-    'central_domains' => [
-        '127.0.0.1',
-        'localhost',
-        'app.yoursaas.com',
-    ],
+    'central_domains' => array_values(array_filter(array_map('trim', explode(',', (string) env('CENTRAL_DOMAINS', 'central.test,127.0.0.1'))))),
 
     /**
      * Tenancy bootstrappers are executed when tenancy is initialized.
@@ -52,7 +49,7 @@ return [
          * Tenant database names are created like this:
          * prefix + tenant_id + suffix.
          */
-        'prefix' => 'tenant',
+        'prefix' => 'tenant_',
         'suffix' => '',
 
         /**

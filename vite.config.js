@@ -7,12 +7,12 @@ import path from 'path';
 export default defineConfig({
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, 'resources/js'),
+            '@': path.resolve(__dirname, 'resources/ts'),
         },
     },
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.tsx'],
+            input: ['resources/css/app.css', 'resources/ts/app.tsx'],
             refresh: true,
         }),
         react(),

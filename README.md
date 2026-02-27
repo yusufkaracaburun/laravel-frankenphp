@@ -62,6 +62,14 @@ docker compose up -d --build
 
 On first run, this builds the FrankenPHP image and starts MySQL, Redis, and the app. The app will run migrations automatically.
 
+**Local domains:** The central app is configured for `http://central.test` and tenants for `http://tenant1.test`, `http://tenant2.test`, etc. Add these to your hosts file so they resolve to `127.0.0.1` (e.g. on macOS/Linux: `/etc/hosts`). Example:
+
+```
+127.0.0.1 central.test tenant1.test tenant2.test
+```
+
+Then open the central app at http://central.test and tenant apps at http://tenant1.test, etc.
+
 ### Optional Dev Tools
 
 Start phpMyAdmin and Redis Commander (dev profile):
@@ -75,9 +83,11 @@ docker compose --profile dev up -d phpmyadmin redis-commander
 
 ### Dev Dashboards (when stack is running)
 
-- **API docs (Scramble):** http://localhost/docs/api
-- **Horizon (queues):** http://localhost/horizon
-- **Telescope (debugging):** http://localhost/telescope
+- **Central app:** http://central.test (or your `APP_URL`)
+- **API docs (Scramble):** http://central.test/docs/api
+- **Horizon (queues):** http://central.test/horizon
+- **Telescope (debugging):** http://central.test/telescope
+- **Tenants:** http://tenant1.test, http://tenant2.test, etc. (after creating tenants and adding domains to `/etc/hosts`)
 
 ### Run Artisan, Composer, NPM
 
@@ -100,7 +110,7 @@ npm install && npm run dev
 
 The app uses **Laravel Fortify** and **Sanctum** for SPA authentication (cookie-based):
 
-1. **Backend (Docker):** Start the stack with `docker compose up -d --build`. The API runs at `http://localhost` (or your configured `APP_URL`).
+1. **Backend (Docker):** Start the stack with `docker compose up -d --build`. The API runs at `http://central.test` (or your configured `APP_URL`). Ensure `central.test` and any tenant hosts (e.g. `tenant1.test`) are in your hosts file.
 
 2. **Frontend:** Run `npm run dev` (from host or inside the app container). Vite serves assets; the React SPA is loaded from Laravel at the same origin.
 
