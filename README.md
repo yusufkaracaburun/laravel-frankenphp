@@ -2,6 +2,8 @@
 
 A production-ready Laravel application stack using [FrankenPHP](https://frankenphp.dev/) as the web server, with MySQL, Redis, queue workers, and the task scheduler—all managed via Docker Compose.
 
+Includes a React SPA with authentication (Fortify + Sanctum) for user registration, login, logout, and profile updates.
+
 ## Stack Overview
 
 - **Laravel** – PHP framework
@@ -71,6 +73,12 @@ docker compose --profile dev up -d phpmyadmin redis-commander
 - phpMyAdmin: http://localhost:8080
 - Redis Commander: http://localhost:8081
 
+### Dev Dashboards (when stack is running)
+
+- **API docs (Scramble):** http://localhost/docs/api
+- **Horizon (queues):** http://localhost/horizon
+- **Telescope (debugging):** http://localhost/telescope
+
 ### Run Artisan, Composer, NPM
 
 Enter the app container:
@@ -87,6 +95,24 @@ php artisan make:model Post -mcr
 composer require spatie/laravel-permission
 npm install && npm run dev
 ```
+
+### Auth Flow (React SPA + Sanctum)
+
+The app uses **Laravel Fortify** and **Sanctum** for SPA authentication (cookie-based):
+
+1. **Backend (Docker):** Start the stack with `docker compose up -d --build`. The API runs at `http://localhost` (or your configured `APP_URL`).
+
+2. **Frontend:** Run `npm run dev` (from host or inside the app container). Vite serves assets; the React SPA is loaded from Laravel at the same origin.
+
+3. **Auth flow:**
+   - User visits `/login` or `/register`
+   - Before login/register, the frontend calls `GET /sanctum/csrf-cookie` to obtain a CSRF token
+   - Login: `POST /api/login` with `{ email, password }`
+   - Register: `POST /api/register` with `{ name, email, password, password_confirmation }`
+   - Profile: `GET /api/v1/user` (current user), `PUT /api/user/profile-information` (Fortify profile update)
+   - Logout: `POST /api/logout`
+
+4. **Environment:** Ensure `.env` has `SANCTUM_STATEFUL_DOMAINS`, `FRONTEND_URL`, and `CORS_ALLOWED_ORIGINS` (see `.env.example`).
 
 ### Manage the Stack
 

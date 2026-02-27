@@ -2,20 +2,13 @@
 
 namespace App\Mcp\Tools;
 
-use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Foundation\Application;
-use Laravel\Mcp\Request;
-use Laravel\Mcp\Response;
-use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\Name;
-use Laravel\Mcp\Server\Attributes\Title;
+use Laravel\Mcp\Server\Tool;
 use Laravel\Mcp\Server\Tools\Annotations\IsIdempotent;
 use Laravel\Mcp\Server\Tools\Annotations\IsReadOnly;
-use Laravel\Mcp\Server\Tool;
+use Laravel\Mcp\Server\Tools\ToolInputSchema;
+use Laravel\Mcp\Server\Tools\ToolResult;
 
-#[Name('app-info')]
-#[Title('Application Info')]
-#[Description('Returns basic information about this Laravel application, including name, environment, and framework version.')]
 #[IsReadOnly]
 #[IsIdempotent]
 class AppInfoTool extends Tool
@@ -25,29 +18,34 @@ class AppInfoTool extends Tool
      */
     public function __construct(
         protected Application $app,
-    ) {
+    ) {}
+
+    /**
+     * Get the description of the tool's purpose.
+     */
+    public function description(): string
+    {
+        return 'Returns basic information about this Laravel application, including name, environment, and framework version.';
     }
 
     /**
      * Get the tool's input schema.
-     *
-     * @return array<string, \Illuminate\JsonSchema\Types\Type>
      */
-    public function schema(JsonSchema $schema): array
+    public function schema(ToolInputSchema $schema): ToolInputSchema
     {
-        return [
-            'include_env' => $schema->boolean()
-                ->description('Whether to include the current APP_ENV value.')
-                ->default(true),
-        ];
+        return $schema->boolean('include_env')
+            ->description('Whether to include the current APP_ENV value.')
+            ->required(false);
     }
 
     /**
      * Handle the tool request.
+     *
+     * @param  array<string, mixed>  $arguments
      */
-    public function handle(Request $request): Response
+    public function handle(array $arguments): ToolResult
     {
-        $includeEnv = $request->boolean('include_env', true);
+        $includeEnv = $arguments['include_env'] ?? true;
 
         $data = [
             'app_name' => config('app.name'),
@@ -58,7 +56,6 @@ class AppInfoTool extends Tool
             $data['environment'] = config('app.env');
         }
 
-        return Response::structured($data);
+        return ToolResult::json($data);
     }
 }
-

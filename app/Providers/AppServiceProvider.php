@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\UserRegistered;
+use App\Listeners\SendWelcomeNotification;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        JsonResource::withoutWrapping();
+
+        Event::listen(UserRegistered::class, SendWelcomeNotification::class);
     }
 }

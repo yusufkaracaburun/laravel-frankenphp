@@ -20,7 +20,7 @@ class AppServer extends Server
      *
      * @var array<int, class-string<\Laravel\Mcp\Server\Tool>>
      */
-    protected array $tools = [
+    public array $tools = [
         AppInfoTool::class,
     ];
 
@@ -29,7 +29,7 @@ class AppServer extends Server
      *
      * @var array<int, class-string<\Laravel\Mcp\Server\Resource>>
      */
-    protected array $resources = [
+    public array $resources = [
         ReadmeResource::class,
     ];
 
@@ -38,8 +38,7 @@ class AppServer extends Server
      *
      * @var array<int, class-string<\Laravel\Mcp\Server\Prompt>>
      */
-    protected array $prompts = [
+    public array $prompts = [
         BugReportPrompt::class,
     ];
 }
-

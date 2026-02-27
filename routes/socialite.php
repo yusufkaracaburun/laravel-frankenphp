@@ -26,4 +26,3 @@ Route::get('/auth/callback', function () {
 
     return redirect('/')->with('status', 'Logged in with GitHub');
 })->name('github.callback');
-

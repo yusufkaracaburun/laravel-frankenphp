@@ -1,7 +1,7 @@
 <?php
 
 use App\Mcp\Servers\AppServer;
-use Laravel\Mcp\Server\Facades\Mcp;
+use Laravel\Mcp\Facades\Mcp;
 
 Mcp::web('/mcp/app', AppServer::class);
 Mcp::local('app', AppServer::class);
