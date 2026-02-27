@@ -22,3 +22,11 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+# Laravel Boost generated files (safe to regenerate)
+.mcp.json
+boost.json
+CLAUDE.md
+AGENTS.md
+junie/
+.ai/guidelines/
+.ai/skills/
