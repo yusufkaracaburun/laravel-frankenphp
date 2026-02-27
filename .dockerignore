@@ -1,0 +1,14 @@
+.git
+.gitignore
+.idea
+.env
+.env.backup
+.env.production
+node_modules
+vendor
+temp
+*.md
+!README.md
+.DS_Store
+docker-compose*.yml
+.dockerignore

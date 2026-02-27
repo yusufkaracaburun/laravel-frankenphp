@@ -1,0 +1,208 @@
+# Laravel + FrankenPHP + Docker
+
+A production-ready Laravel application stack using [FrankenPHP](https://frankenphp.dev/) as the web server, with MySQL, Redis, queue workers, and the task scheduler—all managed via Docker Compose.
+
+## Stack Overview
+
+- **Laravel** – PHP framework
+- **FrankenPHP** – Modern PHP application server (Caddy + PHP, HTTP/3, Worker Mode)
+- **MySQL 8.0** – Primary database
+- **Redis 7** – Cache, sessions, and queues
+- **Supervisor** – Manages FrankenPHP, queue workers, and scheduler in one container
+
+## Requirements
+
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+- Basic familiarity with Laravel and the command line
+
+**Windows users:** Use WSL 2 and store the project under `/home/username/` (not `/mnt/c/`) for better performance.
+
+---
+
+## Local Development
+
+### Initial Setup
+
+1. Copy the environment file and configure it:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Ensure these values in `.env` match the Docker services:
+
+   ```env
+   DB_HOST=mysql
+   DB_DATABASE=laravel
+   DB_USERNAME=laravel
+   DB_PASSWORD=secret
+   REDIS_HOST=redis
+   REDIS_PASSWORD=
+   REDIS_PORT=6379
+   CACHE_STORE=redis
+   SESSION_DRIVER=redis
+   QUEUE_CONNECTION=redis
+   ```
+
+   **Important:** Leave `REDIS_PASSWORD=` empty (not `null`). The string `"null"` causes Redis authentication errors.
+
+3. Clear the bootstrap cache before the first build (avoids Laravel Pail issues):
+
+   ```bash
+   rm -f bootstrap/cache/packages.php bootstrap/cache/services.php
+   ```
+
+### Start the Stack
+
+```bash
+docker compose up -d --build
+```
+
+On first run, this builds the FrankenPHP image and starts MySQL, Redis, and the app. The app will run migrations automatically.
+
+### Optional Dev Tools
+
+Start phpMyAdmin and Redis Commander (dev profile):
+
+```bash
+docker compose --profile dev up -d phpmyadmin redis-commander
+```
+
+- phpMyAdmin: http://localhost:8080
+- Redis Commander: http://localhost:8081
+
+### Run Artisan, Composer, NPM
+
+Enter the app container:
+
+```bash
+docker compose exec app bash
+```
+
+Then run commands as usual:
+
+```bash
+php artisan migrate
+php artisan make:model Post -mcr
+composer require spatie/laravel-permission
+npm install && npm run dev
+```
+
+### Manage the Stack
+
+- **View logs:** `docker compose logs -f app`
+- **Stop:** `docker compose down`
+- **Stop and remove volumes:** `docker compose down -v` (use with caution; deletes DB data)
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `require(/app/vendor/autoload.php): Failed to open stream` | Run `docker compose exec app composer install` |
+| Redis `NOAUTH Authentication required` | Set `REDIS_PASSWORD=` (empty) in `.env` |
+| Caddyfile `php_server` error | Ensure `order php_server before file_server` is in the global Caddy block |
+| Permission denied on `rm -rf` | Docker creates files as root; use `sudo rm -rf` when cleaning up from the host |
+
+---
+
+## Production
+
+### Configuration
+
+1. Set production values in `.env`:
+
+   ```env
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://yourdomain.com
+   ```
+
+2. Use strong passwords for `DB_PASSWORD`, `DB_ROOT_PASSWORD`, and Redis if you add authentication.
+
+3. **HTTPS:** Remove `auto_https off` from `docker/frankenphp/Caddyfile` so Caddy can obtain and renew Let's Encrypt certificates automatically.
+
+### Deploy
+
+```bash
+docker compose up -d --build
+```
+
+### After Code Updates
+
+```bash
+docker compose exec app php artisan migrate --force
+docker compose exec app php artisan config:cache
+docker compose exec app php artisan route:cache
+docker compose exec app php artisan view:cache
+```
+
+---
+
+## Multi-Tenancy with Tenancy for Laravel
+
+This project can be extended for multi-tenant SaaS using [Tenancy for Laravel v3](https://tenancyforlaravel.com/docs/v3/introduction/).
+
+### Concept
+
+- **Central application:** Handles signups, billing, and tenant management.
+- **Tenant application:** Per-tenant data and features, usually on subdomains (e.g. `tenant1.yourdomain.com`).
+
+**Multi-database tenancy** is recommended: each tenant has its own database on the same MySQL container, with full data isolation.
+
+### Installation
+
+Inside the app container:
+
+```bash
+docker compose exec app composer require stancl/tenancy
+docker compose exec app php artisan vendor:publish --tag=tenancy
+```
+
+Run central migrations:
+
+```bash
+docker compose exec app php artisan migrate
+```
+
+### Configuration
+
+1. In `config/tenancy.php`, set multi-database tenancy mode.
+2. In `config/database.php`:
+   - **Central connection:** Use `DB_HOST=mysql`, `DB_DATABASE=central_db` (or your central DB name).
+   - **Tenant connection template:** Same host (`mysql`), dynamic database name per tenant.
+
+### Tenant Identification
+
+Use domain/subdomain middleware from the package. Example:
+
+- Central: `app.yourdomain.com`
+- Tenants: `{tenant}.yourdomain.com`
+
+Configure central vs tenant routes per the [Tenancy for Laravel docs](https://tenancyforlaravel.com/docs/v3/concepts/routes/).
+
+### Migrations
+
+- **Central:** `php artisan migrate`
+- **Tenant:** `php artisan tenants:artisan migrate` (or equivalent package command)
+
+### Queues, Sessions, Cache
+
+- Redis remains `REDIS_HOST=redis`; the package scopes queues, sessions, and cache to tenants.
+- Jobs must be tenant-aware (use the package’s traits/middleware).
+- Supervisor workers (`queue:work`, `schedule:run`) run as configured in `supervisord.conf`; ensure tenant context is applied per the package’s queue documentation.
+
+### Local Development with Tenants
+
+- Add wildcard subdomains in `/etc/hosts` (e.g. `127.0.0.1 tenant1.test tenant2.test`).
+- Run tenant commands: `docker compose exec app php artisan tenants:artisan migrate`
+
+### Production with Tenants
+
+- Configure DNS so tenant domains point to your FrankenPHP server.
+- Use a secure `.env` and follow the package’s onboarding flow for tenant database creation.
+
+---
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

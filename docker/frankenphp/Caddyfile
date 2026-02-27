@@ -1,0 +1,10 @@
+{
+    frankenphp
+    auto_https off
+    order php_server before file_server
+}
+
+:80 {
+    root * /app/public
+    php_server
+}
