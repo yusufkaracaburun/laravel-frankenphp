@@ -116,3 +116,32 @@ User → React (shadcn) → Laravel API (Fortify/Sanctum)
 - Uses Stoplight Elements for UI
 
 Install: `composer require dedoc/scramble`
+
+---
+
+## Laravel Skills (Laravel Boost)
+
+[Laravel Skills](https://skills.laravel.cloud/) provides AI agent skills for Laravel. Requires `laravel/boost` (dev). Install skills with `php artisan boost:add-skill owner/repo`.
+
+### Recommended Skills
+
+| Skill | Install command | Purpose |
+|-------|-----------------|---------|
+| developing-with-fortify | `php artisan boost:add-skill laravel/developing-with-fortify` | Fortify auth (login, register, 2FA, headless) |
+| laravel-11-12-app-guidelines | `php artisan boost:add-skill thienanblog/laravel-11-12-app-guidelines` | Laravel 12, Docker, Fortify, API-only, Pint |
+| laravel-specialist | `php artisan boost:add-skill jeffallan/laravel-specialist` | Eloquent, API resources, Sanctum, Horizon |
+| laravel-best-practices | `php artisan boost:add-skill asyrafhussin/laravel-best-practices` | Controllers, models, migrations, services |
+| eloquent-best-practices | `php artisan boost:add-skill iserter/eloquent-best-practices` | Query optimization, N+1 avoidance |
+| php-best-practices | `php artisan boost:add-skill asyrafhussin/php-best-practices` | PSR, SOLID, type safety |
+
+### Optional Skills
+
+| Skill | Install command | When to use |
+|-------|-----------------|-------------|
+| pennant-development | `php artisan boost:add-skill laravel/pennant-development` | Feature flags with Laravel Pennant |
+| ai-sdk-development | `php artisan boost:add-skill laravel/ai-sdk-development` | AI features with Laravel AI SDK |
+
+### Skills to Skip
+
+- **inertia-react-development** – Not using Inertia (separate React SPA)
+- **shadcn-vue** – Using React + shadcn, not Vue
