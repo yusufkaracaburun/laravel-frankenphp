@@ -13,7 +13,7 @@ class AppController extends Controller
 
     public function tenant()
     {
-        return 'This is your multi-tenant application. The name of the current tenant is '.tenant('id');
-        // return view('tenant');
+        // return 'This is your multi-tenant application. The name of the current tenant is '.tenant('id');
+        return view('tenant');
     }
 }
