@@ -6,9 +6,9 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import { getProfile } from '@central/api/profile';
-import { logout as apiLogout } from '@central/api/auth';
-import type { Profile } from '@central/api/profile';
+import { getProfile } from '@shared/api/profile';
+import { logout as apiLogout } from '@shared/api/auth';
+import type { Profile } from '@shared/api/profile';
 
 export interface AuthContextType {
   user: Profile | null;

@@ -4,8 +4,8 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { I18nextProvider } from 'react-i18next';
-import i18n from '@central/i18n';
-import { AuthProvider } from '@central/contexts/AuthContext';
+import i18n from '@shared/i18n';
+import { AuthProvider } from '@shared/contexts/AuthContext';
 import LoginPage from './LoginPage';
 
 const queryClient = new QueryClient({

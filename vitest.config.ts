@@ -12,6 +12,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'resources/ts'),
+      '@central': path.resolve(__dirname, 'resources/ts/central'),
+      '@tenant': path.resolve(__dirname, 'resources/ts/tenant'),
+      '@shared': path.resolve(__dirname, 'resources/ts/shared'),
     },
   },
 });

@@ -17,7 +17,7 @@
         "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
         "paths": {
-            "@test/*": ["resources/test/*"],
+            "@test/*": ["resources/ts/test/*"],
             "@central/*": ["resources/ts/central/*"],
             "@tenant/*": ["resources/ts/tenant/*"],
             "@shared/*": ["resources/ts/shared/*"],

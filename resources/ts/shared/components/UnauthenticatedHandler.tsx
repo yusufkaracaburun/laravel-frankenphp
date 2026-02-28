@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setUnauthenticatedHandler } from '@central/lib/axios';
-import { useAuth } from '@central/contexts/AuthContext';
+import { setUnauthenticatedHandler } from '@shared/lib/axios';
+import { useAuth } from '@shared/contexts/AuthContext';
 
 export default function UnauthenticatedHandler() {
   const { setUser } = useAuth();

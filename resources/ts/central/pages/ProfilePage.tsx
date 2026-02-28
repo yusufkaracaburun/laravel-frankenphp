@@ -3,17 +3,17 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { updateProfile } from '@central/api/profile';
-import { useAuth } from '@central/contexts/AuthContext';
-import { Button } from '@central/components/ui/button';
-import { Input } from '@central/components/ui/input';
+import { updateProfile } from '@shared/api/profile';
+import { useAuth } from '@shared/contexts/AuthContext';
+import { Button } from '@shared/components/ui/button';
+import { Input } from '@shared/components/ui/input';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@central/components/ui/card';
+} from '@shared/components/ui/card';
 import {
   Form,
   FormControl,
@@ -21,7 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@central/components/ui/form';
+} from '@shared/components/ui/form';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),

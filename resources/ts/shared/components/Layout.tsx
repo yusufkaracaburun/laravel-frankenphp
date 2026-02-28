@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@central/contexts/AuthContext';
+import { useAuth } from '@shared/contexts/AuthContext';
 import { LogOut } from 'lucide-react';
-import { Button } from '@central/components/ui/button';
+import { Button } from '@shared/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@central/components/ui/dropdown-menu';
+} from '@shared/components/ui/dropdown-menu';
 
 interface LayoutProps {
   children: React.ReactNode;

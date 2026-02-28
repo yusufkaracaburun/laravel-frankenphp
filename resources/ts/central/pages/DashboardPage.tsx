@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '@central/contexts/AuthContext';
+import { useAuth } from '@shared/contexts/AuthContext';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@central/components/ui/card';
+} from '@shared/components/ui/card';
 
 export default function DashboardPage() {
   const { user } = useAuth();

@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '@central/contexts/AuthContext';
-import { Button } from '@central/components/ui/button';
+import { useAuth } from '@shared/contexts/AuthContext';
+import { Button } from '@shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@central/components/ui/card';
+} from '@shared/components/ui/card';
 
 export default function HomePage() {
   const { user } = useAuth();

@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
     resolve: {
         alias: {
-            '@test': path.resolve(__dirname, 'resources/test'),
+            '@test': path.resolve(__dirname, 'resources/ts/test'),
             '@central': path.resolve(__dirname, 'resources/ts/central'),
             '@tenant': path.resolve(__dirname, 'resources/ts/tenant'),
             '@shared': path.resolve(__dirname, 'resources/ts/shared'),
