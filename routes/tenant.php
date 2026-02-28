@@ -24,5 +24,7 @@ Route::middleware([
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
-    Route::get('/', [AppController::class, 'tenant'])->name('tenant.index');
+    Route::get('/{any?}', [AppController::class, 'tenant'])
+        ->where('any', '.*')
+        ->name('tenant.index');
 });
