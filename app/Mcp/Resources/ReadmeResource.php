@@ -3,32 +3,31 @@
 namespace App\Mcp\Resources;
 
 use Illuminate\Support\Facades\File;
-use Laravel\Mcp\Request;
-use Laravel\Mcp\Response;
-use Laravel\Mcp\Server\Attributes\Description;
-use Laravel\Mcp\Server\Attributes\MimeType;
-use Laravel\Mcp\Server\Attributes\Name;
-use Laravel\Mcp\Server\Attributes\Title;
 use Laravel\Mcp\Server\Resource;
 
-#[Name('project-readme')]
-#[Title('Project README')]
-#[Description('Exposes the project README.md so AI agents can understand the repository at a glance.')]
-#[MimeType('text/markdown')]
 class ReadmeResource extends Resource
 {
+    protected string $description = 'Exposes the project README.md so AI agents can understand the repository at a glance.';
+
     /**
-     * Handle the resource request.
+     * Read the resource content.
      */
-    public function handle(Request $request): Response
+    public function read(): string
     {
         $path = base_path('README.md');
 
         if (! File::exists($path)) {
-            return Response::error('README.md not found in project root.');
+            return 'README.md not found in project root.';
         }
 
-        return Response::text(File::get($path));
+        return File::get($path);
+    }
+
+    /**
+     * Get the MIME type for the resource.
+     */
+    public function mimeType(): string
+    {
+        return 'text/markdown';
     }
 }
-

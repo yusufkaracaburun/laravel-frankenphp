@@ -6,7 +6,7 @@
 
 **Architecture:** Use Laravel Boost’s official Composer package and Artisan commands (`boost:install`, `boost:update`, `boost:mcp`) as the single integration point. Let Boost manage MCP server configuration, AI guidelines, and skills, while we keep our repo clean with sensible `.gitignore` rules and minimal Composer scripting.
 
-**Tech Stack:** Laravel 12, PHP 8.2+, Composer, Laravel Boost, MCP (Model Context Protocol), Cursor IDE.
+**Tech Stack:** Laravel 12, PHP 8.4+, Composer, Laravel Boost, MCP (Model Context Protocol), Cursor IDE.
 
 ---
 
@@ -256,7 +256,7 @@ From Cursor chat (in this project directory), ask:
 > Use Laravel Boost to fetch application info (Laravel and PHP versions, ecosystem packages, Eloquent models).
 
 Expected:
-- Response includes Laravel 12 and PHP 8.2+.
+- Response includes Laravel 12 and PHP 8.4+.
 - Lists installed Laravel ecosystem packages.
 
 **Step 2: Test routes inspection**

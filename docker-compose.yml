@@ -25,7 +25,7 @@ services:
       DB_PASSWORD: "${DB_PASSWORD:-secret}"
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      CACHE_DRIVER: redis
+      CACHE_STORE: redis
       SESSION_DRIVER: redis
       QUEUE_CONNECTION: redis
       RUN_MIGRATIONS: "${RUN_MIGRATIONS:-true}"
@@ -101,7 +101,7 @@ services:
       PMA_PASSWORD: "${DB_ROOT_PASSWORD:-rootsecret}"
       UPLOAD_LIMIT: 64M
     ports:
-      - "${PHPMYADMIN_PORT:-8080}:80"
+      - "127.0.0.1::80"
     depends_on:
       mysql:
         condition: service_healthy
@@ -120,7 +120,7 @@ services:
     environment:
       REDIS_HOSTS: "local:redis:6379"
     ports:
-      - "${REDIS_COMMANDER_PORT:-8081}:8081"
+      - "127.0.0.1::8081"
     depends_on:
       redis:
         condition: service_healthy

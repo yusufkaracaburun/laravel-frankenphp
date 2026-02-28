@@ -25,8 +25,16 @@ fi
 
 cd /app
 
-if [ ! -d "vendor" ]; then
+# Run composer install when vendor is missing or when dev deps needed (APP_DEBUG)
+if [ ! -f "vendor/autoload.php" ]; then
+    echo "📦 Installing Composer dependencies..."
     composer install --optimize-autoloader --no-interaction
+elif [ "${APP_DEBUG:-false}" = "true" ]; then
+    # Ensure dev deps (Debugbar, etc.) when debugging
+    if [ ! -d "vendor/barryvdh/laravel-debugbar" ]; then
+        echo "📦 Installing dev dependencies for debugging..."
+        composer install --optimize-autoloader --no-interaction
+    fi
 fi
 
 if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "base64:" ]; then

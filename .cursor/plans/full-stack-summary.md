@@ -102,17 +102,3 @@ User → React (shadcn) → Laravel API (Fortify/Sanctum)
                     → Webhooks (Spatie)
                     → Scramble (API docs)
 ```
-
----
-
-## Scramble (API Documentation)
-
-[Scramble](https://scramble.dedoc.co/) generates OpenAPI (Swagger) documentation from Laravel routes and controllers automatically:
-
-- No manual PHPDoc annotations required
-- OpenAPI 3.1.0 format
-- Works with Spatie Query Builder
-- Pro version supports Laravel Data, Laravel Actions
-- Uses Stoplight Elements for UI
-
-Install: `composer require dedoc/scramble`
