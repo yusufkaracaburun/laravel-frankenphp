@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useAuth } from '@shared/contexts/AuthContext';
 import { LogOut } from 'lucide-react';
 import { Button } from '@shared/components/ui/button';
@@ -19,7 +19,7 @@ export default function Layout({ children }: LayoutProps) {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login');
+    navigate({ to: '/login' });
   };
 
   return (

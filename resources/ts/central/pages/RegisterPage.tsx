@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -60,7 +60,7 @@ export default function RegisterPage() {
       const user = await register(data);
       setUser(user);
       toast.success('Account created successfully');
-      navigate('/dashboard', { replace: true });
+      navigate({ to: '/dashboard', replace: true });
     } catch (err: unknown) {
       const res = (
         err as {

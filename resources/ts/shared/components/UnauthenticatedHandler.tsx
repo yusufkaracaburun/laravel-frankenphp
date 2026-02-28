@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from '@tanstack/react-router';
 import { setUnauthenticatedHandler } from '@shared/lib/axios';
 import { useAuth } from '@shared/contexts/AuthContext';
 
 export default function UnauthenticatedHandler() {
   const { setUser } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     setUnauthenticatedHandler(() => {
       setUser(null);
-      navigate('/login', { replace: true });
+      router.navigate({ to: '/login', replace: true });
     });
-  }, [setUser, navigate]);
+  }, [setUser, router]);
 
   return null;
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useSearch } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -34,7 +34,7 @@ type LoginFormValues = z.infer<typeof schema>;
 export default function LoginPage() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const { redirect } = useSearch({ from: '/login' });
   const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -49,11 +49,7 @@ export default function LoginPage() {
       const user = await login(data.email, data.password);
       setUser(user);
       toast.success('Logged in successfully');
-      navigate(
-        (location.state as { from?: { pathname?: string } })?.from?.pathname ||
-          '/dashboard',
-        { replace: true }
-      );
+      navigate({ to: redirect || '/dashboard', replace: true });
     } catch (err: unknown) {
       const res = (
         err as {

@@ -1,39 +1,42 @@
 /// <reference types="@testing-library/jest-dom" />
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import {
+    createMemoryHistory,
+    createRouter,
+    RouterProvider,
+} from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '@shared/i18n';
-import { AuthProvider } from '@shared/contexts/AuthContext';
-import LoginPage from './LoginPage';
+import { routeTree } from '@central/routeTree.gen';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: { retry: false },
-  },
+    defaultOptions: {
+        queries: { retry: false },
+    },
 });
 
 function renderLoginPage() {
-  return render(
-    <I18nextProvider i18n={i18n}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <AuthProvider>
-            <LoginPage />
-          </AuthProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </I18nextProvider>
-  );
+    const router = createRouter({
+        routeTree,
+        context: { queryClient },
+        history: createMemoryHistory({ initialEntries: ['/login'] }),
+        defaultPendingMinMs: 0,
+    });
+
+    return render(
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>,
+    );
 }
 
 describe('LoginPage', () => {
-  it('renders login form', () => {
-    renderLoginPage();
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
-    expect(screen.getByText(/don't have an account/i)).toBeInTheDocument();
-  });
+    it('renders login form', async () => {
+        renderLoginPage();
+        expect(await screen.findByLabelText(/email/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+        const loginButtons = screen.getAllByRole('button', { name: /login/i });
+        expect(loginButtons.some((el) => el.getAttribute('type') === 'submit')).toBe(true);
+        expect(screen.getByText(/don't have an account/i)).toBeInTheDocument();
+    });
 });

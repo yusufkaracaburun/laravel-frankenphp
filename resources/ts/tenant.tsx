@@ -1,63 +1,32 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { I18nextProvider } from 'react-i18next';
-import { Toaster } from 'sonner';
-import { AuthProvider } from '@tenant/contexts/AuthContext';
-import i18n from '@tenant/i18n';
-import Layout from '@tenant/components/Layout';
-import ProtectedRoute from '@tenant/components/ProtectedRoute';
-import UnauthenticatedHandler from '@tenant/components/UnauthenticatedHandler';
-import HomePage from '@tenant/pages/HomePage';
-import LoginPage from '@tenant/pages/LoginPage';
-import RegisterPage from '@tenant/pages/RegisterPage';
-import DashboardPage from '@tenant/pages/DashboardPage';
-import ProfilePage from '@tenant/pages/ProfilePage';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { routeTree } from '@tenant/routeTree.gen';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60,
+    defaultOptions: {
+        queries: {
+            staleTime: 1000 * 60,
+        },
     },
-  },
 });
 
+const router = createRouter({
+    routeTree,
+    context: { queryClient },
+});
+
+declare module '@tanstack/react-router' {
+    interface Register {
+        router: typeof router;
+    }
+}
+
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <I18nextProvider i18n={i18n}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <AuthProvider>
-            <UnauthenticatedHandler />
-            <Layout>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <DashboardPage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <ProfilePage />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Layout>
-            <Toaster position="top-right" richColors />
-          </AuthProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </I18nextProvider>
-  </StrictMode>
+    <StrictMode>
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>
+    </StrictMode>,
 );

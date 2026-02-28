@@ -8,6 +8,8 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@tanstack/react-router-devtools": "^1.141.2",
+    "@tanstack/router-plugin": "^1.141.2",
     "@eslint/js": "^9.39.3",
     "@tailwindcss/vite": "^4.0.0",
     "@testing-library/jest-dom": "^6.9.1",
@@ -35,6 +37,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@react-pdf/renderer": "^4.3.2",
+    "@tanstack/react-router": "^1.141.2",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-table": "^8.21.3",
     "@vitejs/plugin-react": "^5.1.4",
@@ -44,6 +47,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.34.3",
     "i18next": "^25.8.13",
+    "knip": "^5.85.0",
     "lucide-react": "^0.575.0",
     "radix-ui": "^1.4.3",
     "react": "^19.2.4",

@@ -1,13 +1,13 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useRouter } from '@tanstack/react-router';
 import { useAuth } from '@shared/contexts/AuthContext';
 
 interface ProtectedRouteProps {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
-  const location = useLocation();
+  const router = useRouter();
 
   if (loading) {
     return (
@@ -18,7 +18,14 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    const redirect = router.state.location.pathname;
+    return (
+      <Navigate
+        to="/login"
+        search={redirect ? { redirect } : undefined}
+        replace
+      />
+    );
   }
 
   return <>{children}</>;
