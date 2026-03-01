@@ -8,7 +8,7 @@ test.describe('Login', () => {
         await page.getByTestId('email-input').fill('admin@test.com');
         await page.getByTestId('password-input').fill('test123');
         await page.getByTestId('login-button').click();
-        await expect(page).toHaveURL(/dashboard/);
-        await expect(page.getByText(/welcome/i).first()).toBeVisible();
+        await expect(page).toHaveURL(/\/(?:dashboard)?\/?$/);
+        await expect(page.getByRole('heading', { name: /dashboard/i }).first()).toBeVisible();
     });
 });

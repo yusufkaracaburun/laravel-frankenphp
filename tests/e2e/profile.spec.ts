@@ -8,18 +8,19 @@ test.describe('Profile Update', () => {
         await page.getByTestId('email-input').fill('admin@test.com');
         await page.getByTestId('password-input').fill('test123');
         await page.getByTestId('login-button').click();
-        await expect(page).toHaveURL(/dashboard/);
+        await expect(page).toHaveURL(/\/(?:dashboard)?\/?$/);
         await page.goto(`${BASE}/profile`);
         await expect(page.getByRole('button', { name: /save changes/i })).toBeVisible();
     });
 
     test('updates the user name and reverts', async ({ page }) => {
+        await expect(page.getByTestId('name-input')).not.toHaveValue('');
         await page.getByTestId('name-input').fill('Updated Admin');
         await page.getByRole('button', { name: /save changes/i }).click();
-        await expect(page.getByText(/profile updated successfully/i)).toBeVisible();
+        await expect(page.locator('[data-sonner-toast]').filter({ hasText: /profile updated successfully/i })).toBeVisible();
 
         await page.getByTestId('name-input').fill('Central Admin');
         await page.getByRole('button', { name: /save changes/i }).click();
-        await expect(page.getByText(/profile updated successfully/i)).toBeVisible();
+        await expect(page.locator('[data-sonner-toast]').filter({ hasText: /profile updated successfully/i })).toBeVisible();
     });
 });

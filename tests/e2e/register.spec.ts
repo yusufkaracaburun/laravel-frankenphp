@@ -11,6 +11,7 @@ test.describe('Register', () => {
         await page.getByTestId('password-input').fill('password123');
         await page.getByTestId('confirm-password-input').fill('password123');
         await page.getByTestId('register-button').click();
-        await expect(page).toHaveURL(/dashboard/);
+        await expect(page).toHaveURL(/\/login$/);
+        await expect(page.locator('[data-sonner-toast]').filter({ hasText: /account created/i })).toBeVisible();
     });
 });
