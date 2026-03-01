@@ -1,5 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/package.json",
+  "name": "laravel-frankenphp",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.24.0",
@@ -15,9 +17,12 @@
     "build": "vite build",
     "dev": "vite",
     "test": "vitest",
-    "test:e2e": "npx playwright test"
+    "test:e2e": "npx playwright test",
+    "changeset": "changeset",
+    "version": "changeset version"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "@eslint/js": "^9.39.3",
     "@faker-js/faker": "^10.3.0",
     "@playwright/test": "^1.58.2",
