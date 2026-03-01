@@ -175,7 +175,9 @@ docker compose up -d --build
 4. (Optional) Rerun seeders:
 
 ```bash
+docker compose exec app php artisan migrate
 docker compose exec app php artisan db:seed
+docker compose exec app php artisan tenants:migrate
 docker compose exec app php artisan tenants:seed
 ```
 
