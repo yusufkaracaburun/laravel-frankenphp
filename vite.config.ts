@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
     resolve: {
         alias: {
+            '@unhead/react/client': path.resolve(__dirname, 'node_modules/@unhead/react/dist/client.mjs'),
             '@test': path.resolve(__dirname, 'resources/ts/test'),
             '@central': path.resolve(__dirname, 'resources/ts/central'),
             '@tenant': path.resolve(__dirname, 'resources/ts/tenant'),
@@ -20,7 +21,7 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/ts/central/styles/index.css', 'resources/ts/central/app.tsx', 'resources/ts/tenant/app.tsx'],
+            input: ['resources/css/app.css', 'resources/ts/central/styles/index.css', 'resources/ts/central.tsx', 'resources/ts/tenant/styles/index.css', 'resources/ts/tenant.tsx'],
             refresh: true,
         }),
         tanstackRouter({
