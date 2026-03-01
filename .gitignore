@@ -31,3 +31,11 @@ junie/
 .ai/guidelines/
 .ai/skills/
 .tmp/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
