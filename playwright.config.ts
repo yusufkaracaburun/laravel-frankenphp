@@ -14,7 +14,7 @@ export default defineConfig({
     use: {
         baseURL: 'http://central.test',
         trace: 'on-first-retry',
-        headless: true,
+        headless: false,
     },
     projects: [
         {
