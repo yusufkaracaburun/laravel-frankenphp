@@ -7,9 +7,9 @@ export default defineConfig({
     retries: process.env.CI ? 2 : 0,
     workers: 1,
     reporter: 'list',
-    timeout: 30000,
+    timeout: 15000,
     expect: {
-        timeout: 10000,
+        timeout: 5000,
     },
     use: {
         baseURL: 'http://central.test',
