@@ -20,7 +20,7 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/ts/central.tsx', 'resources/ts/tenant.tsx'],
+            input: ['resources/css/app.css', 'resources/ts/central/app.tsx', 'resources/ts/tenant.tsx'],
             refresh: true,
         }),
         tanstackRouter({
