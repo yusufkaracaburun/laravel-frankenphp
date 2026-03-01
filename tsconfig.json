@@ -18,7 +18,7 @@
         "baseUrl": ".",
         "paths": {
             "@test/*": ["resources/ts/test/*"],
-            "@central/*": ["resources/ts/.tmp/central/*"],
+            "@central/*": ["resources/ts/central/*"],
             "@tenant/*": ["resources/ts/tenant/*"],
             "@shared/*": ["resources/ts/shared/*"],
         }
