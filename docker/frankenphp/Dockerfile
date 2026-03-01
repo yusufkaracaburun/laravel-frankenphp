@@ -19,8 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     default-mysql-client \
     supervisor \
     nodejs \
-    npm \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && corepack enable \
+    && corepack prepare pnpm@10.24.0 --activate
 
 # Install PHP extensions
 RUN install-php-extensions \
